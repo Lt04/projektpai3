@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Turnieje</title>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="scripts/app.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="start">
+        <div id="startOverlay" class="overlay"></div>
+        <div id="startContent" class="container col-auto">
+            <button onclick=loginshow() type="button" class="btn btn-light">Sign in</button>
+            <button onclick=registershow() type="button" class="btn btn-light">Sign up</button>
+            <button onclick=logoutshow() type="button" class="btn btn-danger">Sign out</button> 
+            <button onclick=crtoushow() type="button" class="btn btn-light">Create tournament</button> 
+            <button onclick=evshow() type="button" class="btn btn-light">My events</button><br>
+            <small id="startmsg"></small>
+            <small id="tourlist"></small><br>
+            <button onclick=prevpag() type="button" class="btn btn-light">Previous Page</button> 
+            <button onclick=nextpag() type="button" class="btn btn-light">Next Page</button><br>
+            Search tournament by name: <input class="form-control" id="searchtour"> <button onclick=searchtour() type="button" class="btn btn-success">Confirm</button>
+            <button onclick=backtour() type="button" class="btn btn-danger">Cancel</button><br>
+        </div>
+    </div>
+    <div id="registration">
+        <div id="registrationOverlay" class="overlay"></div>
+        <div id="registrationContent" class="container col-auto">
+            First name:
+            <input class="form-control" id="firstname"> 
+            Last name:
+            <input class="form-control" id="lastname"> 
+            E-mail address:
+            <input class="form-control" id="mail">
+            Password: <br> 
+            <input type="password" id="pass"> <br>
+            Confirm password: <br>
+            <input type="password" id="pass2"> <br>
+            <button onclick=register() type="button" class="btn btn-success">Sign up</button>
+            <button onclick=registerhide() type="button" class="btn btn-danger">Back</button> <br>
+            <small id="regmsg"></small>
+        </div>
+    </div>
+    <div id="modtour">
+        <div id="modtourOverlay" class="overlay2"></div>
+        <div id="modtourContent" class="con2 col-auto">
+            Discipline:
+            <input class="form-control" id="moddisc"> 
+            Date(YYYY-MM-DD format):
+            <input class="form-control" id="moddat"> 
+            Registration deadline(YYYY-MM-DD format):
+            <input class="form-control" id="modreg">
+            Sponsors:
+            <select class="browser-default custom-select" id="mspon1"></select> 
+            <select class="browser-default custom-select" id="mspon2"></select>
+            <select class="browser-default custom-select" id="mspon3"></select>
+            <select class="browser-default custom-select" id="mspon4"></select>
+            <select class="browser-default custom-select" id="mspon5"></select>
+            <button onclick=mod() type="button" class="btn btn-success">Confirm</button>
+            <button onclick=modhide() type="button" class="btn btn-danger">Back</button> <br>
+            <small id="modmsg"></small>
+        </div>
+    </div>
+    <div id="dettour">
+        <div id="dettourOverlay" class="overlay"></div>
+        <div id="dettourContent" class="container col-auto">
+            <small id="detres"></small>
+            <button onclick=regtour() type="button" class="btn btn-light">Register</button>
+            <button onclick=tomat() type="button" class="btn btn-light">Show matches</button>
+            <button onclick=dethide() type="button" class="btn btn-danger">Back</button> <br>
+            <small id="detmsg"></small>
+        </div>
+    </div>
+    <div id="login">
+        <div id="loginOverlay" class="overlay2"></div>
+        <div id="loginContent" class="con2 col-auto">
+            Email Address:
+            <input class="form-control" id="logmail"> 
+            Password: <br>
+            <input type="password" id="logpass"> <br>
+            <button onclick=login() type="button" class="btn btn-success">Sign in</button>
+            <button onclick=loginhide() type="button" class="btn btn-danger">Back</button> 
+            <button onclick=changepassshow() type="button" class="btn btn-light">I forgot password</button><br>
+            <small id="loginmsg"></small>
+        </div>
+    </div>
+    <div id="changepass">
+        <div id="changepassOverlay" class="overlay2"></div>
+        <div id="changepassContent" class="con2 col-auto">
+            Email Address:
+            <input class="form-control" id="chanmail">   
+            <button onclick=changepass() type="button" class="btn btn-success">Send e-mail</button>
+            <button onclick=changepasshide() type="button" class="btn btn-danger">Back</button> <br>
+            <small id="chanmsg"></small>
+        </div>
+    </div>
+    <div id="regtourrank">
+        <div id="regtourrankOverlay" class="overlay2"></div>
+        <div id="regtourrankContent" class="con2 col-auto">
+            Your rank:
+            <input class="form-control" id="tourrank">   
+            <button onclick=confreg() type="button" class="btn btn-success">Confirm</button>
+            <button onclick=reghide() type="button" class="btn btn-danger">Back</button> <br>
+            <small id="rankmsg"></small>
+        </div>
+    </div>
+    <div class="over"></div>
+    <div id="logout">
+        <div id="logoutOverlay" class="overlay"></div>
+        <div id="logoutContent" class="container col-auto">
+            Are you sure? <br> 
+            <button onclick=logout() type="button" class="btn btn-success">Yes</button>
+            <button onclick=logouthide() type="button" class="btn btn-danger">No</button> <br>
+        </div>
+    </div>
+    <div id="evchoose">
+        <div id="evchooseOverlay" class="overlay"></div>
+        <div id="evchooseContent" class="container col-auto">
+            <button onclick=mytur() type="button" class="button is-medium is-fullwidth">Tournaments</button>
+            <button onclick=myma() type="button" class="button is-medium is-fullwidth">Matches</button> 
+            <button onclick=evchoosehide() type="button" class="button is-medium is-fullwidth is-danger">Back</button><br>
+        </div>
+    </div>
+    <div id="mytur">
+        <div id="myturOverlay" class="overlay"></div>
+        <div id="myturContent" class="container col-auto">
+            <small id="myturres"></small>
+            <button onclick=myturhide() type="button" class="btn btn-danger">Back</button>
+        </div>
+    </div>
+    <div id="myma">
+        <div id="mymaOverlay" class="overlay"></div>
+        <div id="mymaContent" class="container col-auto">
+            <small id="mymares"></small>
+            <button onclick=mymahide() type="button" class="btn btn-danger">Back</button>
+        </div>
+    </div>
+    <div id="matches">
+            <small id="resmsg"></small>
+            <div class="row">
+                <div class="column" id="res1"></div>
+                <div class="column" id="res2"></div>
+                <div class="column" id="res3"></div>
+                <div class="column" id="res4"></div>
+                <div class="column" id="res5"></div>
+                <div class="column" id="res6"></div>
+                <div class="column" id="res7"></div>
+            </div>
+            <button onclick=matcheshide() type="button" class="btn btn-danger">Back</button>
+    </div>
+    <div id="crtou">
+        <div id="crtouOverlay" class="overlay"></div>
+        <div id="crtouContent" class="container col-auto">
+            Tournament name:
+            <input class="form-control" id="tourname"> 
+            Discipline:
+            <input class="form-control" id="disc"> 
+            Date(YYYY-MM-DD format):
+            <input class="form-control" id="tourdat">
+            Maximum entries:
+            <select class="browser-default custom-select" id="ent">
+                <option value=""></option>
+                <option value="8">8</option>
+                <option value="16">16</option>
+                <option value="32">32</option>
+                <option value="64">64</option>
+                <option value="128">128</option>
+            </select> 
+            Registration deadline(YYYY-MM-DD format):
+            <input class="form-control" id="regdead"> 
+            Sponsors:
+            <select class="browser-default custom-select" id="spon1"></select> 
+            <select class="browser-default custom-select" id="spon2"></select>
+            <select class="browser-default custom-select" id="spon3"></select>
+            <select class="browser-default custom-select" id="spon4"></select>
+            <select class="browser-default custom-select" id="spon5"></select>
+            <button onclick=crtou() type="button" class="btn btn-success">Confirm</button>
+            <button onclick=crtouhide() type="button" class="btn btn-danger">Back</button> <br>
+            <small id="crtoumsg"></small>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+</body>
+</html>
